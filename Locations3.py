@@ -7,7 +7,7 @@ import argparse
 DB_CONFIG = {
     "host": "localhost",
     "user": "root",
-    "password": "",
+    "password": "root",
     "database": "traccar"
 }
 
