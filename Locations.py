@@ -1,6 +1,7 @@
 import csv
 import mysql.connector
 from mysql.connector import Error
+import argparse
 
 # Database configuration
 DB_CONFIG = {
@@ -23,7 +24,7 @@ def insert_address(cursor, data):
     """
     cursor.execute(sql, data)
 
-def main():
+def main(user_id):
     try:
         # Connect to the database
         connection = mysql.connector.connect(**DB_CONFIG)
@@ -43,7 +44,7 @@ def main():
                     row['District'],           # state
                     row['Province'],           # country
                     None,                      # postal_code (not provided in CSV)
-                    1                          # user_id (replace with appropriate value)
+                    user_id                         # user_id (replace with appropriate value)
                 )
                 insert_address(cursor, data)
 
@@ -63,4 +64,8 @@ def main():
             connection.close()
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Insert address data into the database.")
+    parser.add_argument("--user_id", type=int, required=True, help="User ID to associate with the data")
+    args = parser.parse_args()
+    # Call the main function with the user_id parameter
+    main(args.user_id)
