@@ -7,12 +7,12 @@ import argparse
 DB_CONFIG = {
     "host": "localhost",
     "user": "root",
-    "password": "",
+    "password": "root",
     "database": "traccar"
 }
 
 # CSV file path
-CSV_FILE = "Locations.csv"
+CSV_FILE = "locations.csv"
 
 def insert_address(cursor, data):
     """
@@ -37,13 +37,13 @@ def main(user_id):
                 print(row)
                 # Map CSV fields to DB columns
                 data = (
-                    row['Location'],            # name
-                    float(row['X']),           # latitude
-                    float(row['Y']),           # longitude
-                    row['City'],               # city
-                    row['District'],           # state
-                    row['Province'],           # country
-                    None,                      # postal_code (not provided in CSV)
+                    str(row['Road']) + ' ' + str(row['Location']) + ' ' + str(row['Area']),            # name
+                    float(row['Y']),           # latitude
+                    float(row['X']),           # longitude
+                    str(row['City'])+ ' ' + str(row['District']),               # city
+                    row['State'],           # state
+                    row['Country'],           # country
+                    row['ZipCode'],                      # postal_code (not provided in CSV)
                     user_id                         # user_id (replace with appropriate value)
                 )
                 insert_address(cursor, data)
